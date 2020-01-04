@@ -2,8 +2,7 @@
 
 # Description
 
-A lab environment for the https://training.linuxfoundation.org/training/kubernetes-for-developers/ course,
-setup using https://github.com/kubernetes-sigs/kind.
+A https://github.com/kubernetes-sigs/kind lab environment for the https://training.linuxfoundation.org/training/kubernetes-for-developers/ course.
 
 The environment, consisting of one master and one `k8s` worker node,
 allows one to practice all exercises from the course,
