@@ -6,18 +6,22 @@ PrepareInstallation() {
   sudo apt-get -qq -y update
   sudo apt-get -qq -y install cmake build-essential git autoconf automake \
     libtool curl build-essential
+  echo "end"
 }
 
 InstallGolang () {
+  echo "start1"
   export GOPATH=${HOME}/go
   GO_PACKAGE=go${LATEST_GO_VERSION}.linux-amd64.tar.gz
   
   mkdir -p ${GOPATH}
   sudo rm -rf /usr/local/go/
+  echo "start2"
   curl -s https://storage.googleapis.com/golang/${GO_PACKAGE} | sudo tar -C /usr/local -xz
   sudo sh -c "echo 'export GOPATH=$GOPATH' >> /etc/profile"
   sudo sh -c "echo 'export PATH=/usr/local/go/bin:${GOPATH}/bin:$PATH' >> /etc/profile"
   sudo sh -c "echo 'export GOROOT=/usr/local/go' >> /etc/profile"
+  echo "start3"
 
   export GOPATH=$GOPATH
   export PATH=/usr/local/go/bin:${GOPATH}/bin:$PATH
