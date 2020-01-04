@@ -29,7 +29,8 @@ script:
 after_script:
   - cd kind
   - cd manifests
-  - cp -p ../.kube .
+  - mkdir .kube
+  - ln -s ../.kube/config .kube/config
   - env | sort | grep KUBECONFIG
   - test -r $KUBECONFIG
   - readlink -f $KUBECONFIG
