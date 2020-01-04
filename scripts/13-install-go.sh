@@ -15,9 +15,15 @@ InstallGolang () {
   GO_PACKAGE=go${LATEST_GO_VERSION}.linux-amd64.tar.gz
   
   mkdir -p ${GOPATH}
+  ls -al $HOME
+  ls -al /usr/local/go
+  go version
+  which go
   sudo rm -rf /usr/local/go/
+  ls -al /usr/local/go
   echo "start2"
-  curl -s https://storage.googleapis.com/golang/${GO_PACKAGE} | sudo tar -C /usr/local -xz
+  curl https://storage.googleapis.com/golang/${GO_PACKAGE} | sudo tar -C /usr/local -xz
+  ls -al /usr/local/go
   sudo sh -c "echo 'export GOPATH=$GOPATH' >> /etc/profile"
   sudo sh -c "echo 'export PATH=/usr/local/go/bin:${GOPATH}/bin:$PATH' >> /etc/profile"
   sudo sh -c "echo 'export GOROOT=/usr/local/go' >> /etc/profile"
