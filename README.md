@@ -59,7 +59,7 @@ From now on, all commands are to be execute **inside** of the virtual machine ss
 Refresh the repo list
 
 ```sh
-sudo apt-gee update
+sudo apt-get update
 ```
 
 Install additional tools - skip this step if running in `vagrant` since it has been already performed
