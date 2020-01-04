@@ -55,6 +55,13 @@ From now on, all commands are to be execute **inside** of the virtual machine ss
 
 ## Configure the `docker` host
 
+
+Refresh the repo list
+
+```sh
+sudo apt-gee update
+```
+
 Install additional tools - skip this step if running in `vagrant` since it has been already performed
 
 ```sh
