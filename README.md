@@ -136,7 +136,7 @@ cd kind-registry
 direnv allow
 bash ../scripts/22-install-kind-with-registry-sh.sh
 bash ../scripts/23-configure-ckad-registry.sh
-! bash ../scripts/24-test-ckad-registry.sh  # insecure registry unsupported yet https://github.com/containerd/cri/issues/1367
+bash ../scripts/24-test-ckad-registry.sh || true # insecure registry unsupported yet https://github.com/containerd/cri/issues/1367
 bash ../scripts/25-remove-ckad-registry.sh
 cd ..
 ```
