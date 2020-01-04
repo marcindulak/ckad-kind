@@ -5,6 +5,7 @@ then
 fi
 
 env | sort | grep KUBECONFIG
+readlink -f $KUBECONFIG
 kind create cluster --name ckad --image kindest/node:v1.16.1 --config kind.config.yaml
 test -r $KUBECONFIG
 kubectl cluster-info

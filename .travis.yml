@@ -28,11 +28,13 @@ script:
 
 after_script:
   - cd kind
+  - cd manifests
+  - cp -p ../.kube .
   - env | sort | grep KUBECONFIG
   - test -r $KUBECONFIG
+  - readlink -f $KUBECONFIG
   - kubectl cluster-info
   - kubectl get nodes
-  - cd manifests
   - bash ../../scripts/30-install-calico.sh
   - bash ../../scripts/31-install-ingress-nginx.sh
   - bash ../../scripts/32-test-ingress-nginx.sh
