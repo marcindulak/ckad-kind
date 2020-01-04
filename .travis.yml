@@ -30,8 +30,6 @@ script:
   - ! bash ../scripts/24-test-ckad-registry.sh
   - bash ../scripts/25-remove-ckad-registry.sh
   - cd ..
-
-after_script:
   - cd kind
   - direnv allow
   - cd manifests
