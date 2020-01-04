@@ -15,29 +15,29 @@ The setup requires 6GB of RAM (it may work even on 4GB, but slowly) and
 # Usage
 
 The recommended way of setting up the `kind` cluster is to confine it inside
-of a `virtualbox` virtual machine run by `vagrant`, but the setup can be also performed
-directly on a "physical" laptop running a Debian/Ubuntu based system.
-This virtual machines will serve as the docker host for running `kind`.
+of a `virtualbox` virtual machine run by `vagrant`.
+This virtual machine will serve as the docker host for running `kind`.
+The setup can be also performed directly on a "physical" laptop running a Debian/Ubuntu based system.
 
 
 ## Bring up the virtual machine used as `docker` host
 
-Install from https://www.virtualbox.org/ and https://www.vagrantup.com/
+1. Install from https://www.virtualbox.org/ and https://www.vagrantup.com/
 
-After installation, clone the repository
+2. After installation, clone the repository
 
 ```sh
 git clone https://github.com/marcindulak/ckad-kind
 ```
 
-and download the `vagrant` box
+3. and download the `vagrant` box
 
 ```sh
 cd ckad-kind
 vagrant box add ubuntu/bionic64
 ```
 
-Extend the size of the root partition in the box, using the [scripts/00-extend-size-of-vmdk-root.sh](scripts/00-extend-size-of-vmdk-root.sh) script.
+4. Extend the size of the root partition in the box, using the [scripts/00-extend-size-of-vmdk-root.sh](scripts/00-extend-size-of-vmdk-root.sh) script.
 The vmdk image is located in a subdirectory under `~/.vagrant/boxes`. See https://tuhrig.de/resizing-vagrant-box-disk-space/
 
 Bring up the virtual machine with `vagrant`, and ssh into it
@@ -48,20 +48,22 @@ vagrant ssh
 cd /vagrant
 ```
 
-From now on, all commands are to be execute **inside** of the virtual machine ssh session,
+5. From now on, all commands are to be execute **inside** of the virtual machine ssh session,
 **starting** from the `/vagrant` directory.
 
 
 ## Configure the `docker` host
 
+**Note**: skip this whole section if running in the virtual machine started by `vagrant`,
+since the configuration steps has been already performed using [Vagrantfile](Vagrantfile).
 
-Refresh the repo list
+6. Refresh the repo list
 
 ```sh
 sudo apt-get update
 ```
 
-Install additional tools - skip this step if running in `vagrant` since it has been already performed
+7. Install additional tools
 
 ```sh
 bash scripts/01-install-tools.sh
@@ -70,7 +72,7 @@ source ~/.bashrc
 direnv status
 ```
 
-Install `docker` - skip this step if running in `vagrant` since it has been already performed
+8. Install `docker`
 
 ```sh
 bash scripts/10-install-docker.sh  # (the script makes use of sudo)
@@ -78,7 +80,7 @@ bash scripts/10-install-docker.sh  # (the script makes use of sudo)
 bash scripts/11-test-docker.sh
 ```
 
-Allow insecure `docker` registry on localhost - skip this step if running in `vagrant` since it has been already performed
+9. Allow insecure `docker` registry on localhost.
 
 *WARNING*: the script below restarts `docker`.
 After restarting of the `docker` host any `kind` clusters must be recreated
@@ -89,7 +91,7 @@ https://github.com/kubernetes-sigs/kind/issues/148
 bash scripts/12-allow-insecure-docker-registry.sh  # (the script makes use of sudo)
 ```
 
-Install `go` - skip this step if running in `vagrant` since it has been already performed
+10. Install `go`
 
 ```sh
 bash scripts/13-install-go.sh  # (the script makes use of sudo)
@@ -97,16 +99,16 @@ source /etc/profile
 bash scripts/14-test-go.sh
 ```
 
-Install `kind` from source, see https://github.com/kubernetes-sigs/kind
+
+## Bring up the ckad `kind` k8s cluster
+
+11. Install `kind` from source, see https://github.com/kubernetes-sigs/kind
 
 ```sh
 bash scripts/15-install-kind.sh
 ```
 
-
-## Bring up the ckad `kind` k8s cluster
-
-Install `kubectl`
+12. Install `kubectl`
 
 ```sh
 bash scripts/20-install-kubectl.sh
@@ -114,7 +116,7 @@ echo "source <(kubectl completion bash)" >> ~/.bashrc
 source ~/.bashrc
 ```
 
-Create the `ckad` kind cluster using a specific k8s version from https://hub.docker.com/r/kindest/node/tags.
+13. Create the `ckad` kind cluster using a specific k8s version from https://hub.docker.com/r/kindest/node/tags.
 The `ckad-registry` is setup under the separate `kind` directory,
 where its `.kube/config` file is stored, so it does not overwrite the existing, global `~/.kube/config`.
 The local `.envrc` file is used for this purpose, by exporting the `KUBECONFIG` environment variable.
@@ -126,7 +128,7 @@ bash ../scripts/21-install-ckad.sh
 cd ..
 ```
 
-Install and configure local `docker` registry in a 'kind-registry' `docker` container.
+14. Install and configure local `docker` registry in a 'kind-registry' `docker` container.
 The `kind-with-registry-sh` script brings up an extra `kind` cluster `ckad-registry` to be deleted.
 Similarly to the `ckad` cluster, the `ckad-registry` cluster is setup under the separate `kind-registry` directory,
 where its `.kube/config` file is stored, so it does not overwrite the existing, global `~/.kube/config`.
@@ -143,15 +145,17 @@ cd ..
 
 ## Configure the k8s cluster
 
-Install `calico` https://docs.projectcalico.org/v3.11/getting-started/kubernetes/installation/calico
-The `calico` default pod CIDR is 192.168.0.0/16 and 10.96.0.0/12 is the default kubeadm service CIDR.
-See https://github.com/mauilion/kind-cni-playground and
-https://alexbrand.dev/post/creating-a-kind-cluster-with-calico-networking/
+15. Enter the cluster directory. This will load the value of environment variable `KUBECONFIG` from [.envrc](kind/.envrc)
 
 ```sh
 cd kind
 direnv allow
 ```
+
+16. Install `calico` https://docs.projectcalico.org/v3.11/getting-started/kubernetes/installation/calico
+The `calico` default pod CIDR is 192.168.0.0/16 and 10.96.0.0/12 is the default kubeadm service CIDR.
+See https://github.com/mauilion/kind-cni-playground and
+https://alexbrand.dev/post/creating-a-kind-cluster-with-calico-networking/
 
 ```sh
 cd manifests
@@ -159,11 +163,10 @@ bash ../../scripts/30-install-calico.sh
 cd ..
 ```
 
-Install `nginx` ingress. Note that only one `docker` `kind` node container can act as as ingress.
+17. Install `nginx` ingress. Note that only one `docker` `kind` node container can act as as ingress.
 In this case the ingress container is run on the k8s master node.
 See  https://projectcontour.io/kindly-running-contour/ and
 https://kind.sigs.k8s.io/docs/user/ingress/ and https://banzaicloud.com/blog/kind-ingress/.
-
 In the `vagrant` setup the ingress ports 80 and 443 are forwarded to
 8080 and 8443 ports, respectively on the `vagrant` host (your laptop).
 
@@ -174,7 +177,7 @@ bash ../../scripts/32-test-ingress-nginx.sh
 cd ..
 ```
 
-Test nodeport functionality
+18. Test nodeport functionality (on the fixed `31080` port)
 
 ```sh
 cd manifests
@@ -182,12 +185,11 @@ bash ../../scripts/33-test-nodeport.sh
 cd ..
 ```
 
-Install metrics-server
+19. Install metrics-server
 
 One must modify the `metrics-server/deploy/1.8+/metrics-server-deployment.yaml`
 https://github.com/kubernetes-sigs/kind/issues/398#issuecomment-478311167
 to allow insecure, InternalIP adresses
-
 
 ```sh
 cd manifests
@@ -199,7 +201,7 @@ cd ..
 
 # Cleanup
 
-Remove the `kind` cluster and the `docker` registry container
+20. Remove the `kind` cluster and the `docker` registry container
 
 ```sh
 kind delete cluster --name ckad
