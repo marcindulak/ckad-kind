@@ -4,4 +4,8 @@ then
     exit 1
 fi
 
+env | sort | grep KUBECONFIG
 kind create cluster --name ckad --image kindest/node:v1.16.1 --config kind.config.yaml
+ls -al $KUBECONFIG
+kubectl cluster-info
+kubectl get nodes

@@ -4,7 +4,10 @@ then
     exit 1
 fi
 
+env | sort | grep KUBECONFIG
 KIND_CLUSTER_NAME=ckad-registry bash kind-with-registry.sh
+ls -al .kube
+kubectl cluster-info
 kubectl get nodes
 
 ip_fmt='{{.NetworkSettings.IPAddress}}'

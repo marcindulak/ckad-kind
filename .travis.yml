@@ -17,32 +17,30 @@ before_script:
   - bash scripts/20-install-kubectl.sh
   - echo "source <(kubectl completion bash)" >> ~/.bashrc
   - source ~/.bashrc
+  - id
+  - cat ~/.bashrc
 
 script:
+  - id
+  - source ~/.bashrc
   - cd kind
   - direnv allow
-  - env | sort
   - bash ../scripts/21-install-ckad.sh
-  - ls -al .kube
-  - kubectl cluster-info
-  - kubectl get nodes
   - cd ..
   - cd kind-registry
   - direnv allow
-  - env | sort
   - bash ../scripts/22-install-kind-with-registry-sh.sh
   - bash ../scripts/23-configure-ckad-registry.sh
-  - ls -al .kube
-  - kubectl cluster-info
-  - kubectl get nodes
   - ! bash ../scripts/24-test-ckad-registry.sh
   - bash ../scripts/25-remove-ckad-registry.sh
   - cd ..
 
 after_script:
+  - id
+  - source ~/.bashrc
   - cd kind
   - direnv allow
-  - env | sort
+  - env | sort | grep KUBECONFIG
   - ls -al .kube
   - kubectl cluster-info
   - kubectl get nodes
