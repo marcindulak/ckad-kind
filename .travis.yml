@@ -9,26 +9,19 @@ env:
 before_script:
   - sudo apt-get update
   - bash scripts/01-install-tools.sh
-  - echo 'eval "$(direnv hook bash)"' >> ~/.bashrc
-  - source ~/.bashrc
-  - direnv status
   - bash scripts/12-allow-insecure-docker-registry.sh
   - bash scripts/13-install-go.sh
+  - echo "KUBECONFIG=\$PWD/.kube/config" | sudo tee -a /etc/profile
   - source /etc/profile
   - bash scripts/14-test-go.sh
   - bash scripts/15-install-kind.sh
   - bash scripts/20-install-kubectl.sh
-  - echo "source <(kubectl completion bash)" >> ~/.bashrc
-  - source ~/.bashrc
 
 script:
-  - source ~/.bashrc
   - cd kind
-  - direnv allow
   - bash ../scripts/21-install-ckad.sh
   - cd ..
   - cd kind-registry
-  - direnv allow
   - bash ../scripts/22-install-kind-with-registry-sh.sh
   - bash ../scripts/23-configure-ckad-registry.sh
   - ! bash ../scripts/24-test-ckad-registry.sh
@@ -36,11 +29,9 @@ script:
   - cd ..
 
 after_script:
-  - source ~/.bashrc
   - cd kind
-  - direnv allow
   - env | sort | grep KUBECONFIG
-  - ls -al .kube
+  - test -r $KUBECONFIG
   - kubectl cluster-info
   - kubectl get nodes
   - cd manifests
