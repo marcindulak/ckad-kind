@@ -30,9 +30,15 @@ script:
   - ! bash ../scripts/24-test-ckad-registry.sh
   - bash ../scripts/25-remove-ckad-registry.sh
   - cd ..
+
+after_script:
   - cd kind
   - direnv allow
+  - ls -al .kube
+  - kubectl cluster-info
+  - kubectl get nodes
   - cd manifests
+  - kubectl get nodes
   - bash ../../scripts/30-install-calico.sh
   - bash ../../scripts/31-install-ingress-nginx.sh
   - bash ../../scripts/32-test-ingress-nginx.sh
