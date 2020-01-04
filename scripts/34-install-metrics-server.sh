@@ -11,7 +11,8 @@ then
     rm -rf metrics-server
     mkdir -p metrics-server/deploy
     mv 1.8+ metrics-server/deploy
-    kubectl apply -f metrics-server/deploy/1.8+
-    kubectl -n kube-system patch deployment metrics-server -p "$(cat metrics-server-patch.yaml)"
-    sleep 60
 fi
+
+kubectl apply -f metrics-server/deploy/1.8+
+kubectl -n kube-system patch deployment metrics-server -p "$(cat metrics-server-patch.yaml)"
+sleep 60

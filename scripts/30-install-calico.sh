@@ -7,7 +7,8 @@ fi
 if ! test -r calico.yaml;
 then
    curl -sLO https://docs.projectcalico.org/v3.11/manifests/calico.yaml
-   kubectl apply -f calico.yaml
-   sleep 300
-   kubectl get nodes | grep -v NotReady
 fi
+
+kubectl apply -f calico.yaml
+sleep 240
+kubectl get nodes | grep -v NotReady
