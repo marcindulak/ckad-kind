@@ -21,7 +21,7 @@ directly on a "physical" laptop running a Debian/Ubuntu based system.
 This virtual machines will serve as the docker host for running `kind`.
 
 
-## Bring up the `docker` host virtual machine with vagrant
+## Bring up the virtual machine used as `docker` host
 
 Install from https://www.virtualbox.org/ and https://www.vagrantup.com/
 
