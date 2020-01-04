@@ -1,0 +1,5 @@
+.vagrant
+.kube/config
+kubectl
+*.log
+*~

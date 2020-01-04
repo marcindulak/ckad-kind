@@ -1,0 +1,26 @@
+language: generic
+dist: bionic
+sudo: required
+services:
+  - docker
+
+before_script:
+  - bash scripts/01-install-tools.sh
+  - echo 'eval "$(direnv hook bash)"' >> ~/.bashrc
+  - source ~/.bashrc
+  - bash scripts/12-allow-insecure-docker-registry.sh
+  - bash scripts/13-install-go.sh
+  - bash scripts/14-test-go.sh
+  - bash scripts/15-install-kind.sh
+  - bash scripts/20-install-kubectl.sh
+  - echo "source <(kubectl completion bash)" >> ~/.bashrc
+  - source ~/.bashrc
+  
+script:
+  - cd kind
+  - direnv allow
+  - bash ../scripts/21-install-ckad.sh
+  - cd ..
+  
+after_script:
+  - pwd

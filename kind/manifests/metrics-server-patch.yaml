@@ -1,0 +1,9 @@
+---
+spec:
+  template:
+    spec:
+      containers:
+      - name: metrics-server
+        args:
+            - --kubelet-insecure-tls
+            - --kubelet-preferred-address-types=InternalIP

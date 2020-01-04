@@ -1,0 +1,56 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+# Allow containerd insecure local registry
+# https://kind.sigs.k8s.io/docs/user/local-registry/
+# https://github.com/containerd/cri/issues/1367
+containerdConfigPatches: 
+- |-
+  [plugins."io.containerd.grpc.v1.cri".registry.mirrors."registry:5000"]
+    endpoint = ["http://registry:5000"]
+# Use the calico recommended pod CIDR for small clusters
+# https://docs.projectcalico.org/v3.11/getting-started/kubernetes/installation/calico
+kubeadmConfigPatches:
+- |
+  apiVersion: kubeadm.k8s.io/v1beta1
+  kind: ClusterConfiguration
+  metadata:
+    name: config
+  networking:
+    serviceSubnet: "10.96.0.0/12"
+    podSubnet: "192.168.0.0/16"
+networking:
+  # Disable kindnet in order to use other CNI
+  # https://alexbrand.dev/post/creating-a-kind-cluster-with-calico-networking/
+  disableDefaultCNI: True
+nodes:
+- role: control-plane
+  # Setup k8s master for ingress https://kind.sigs.k8s.io/docs/user/ingress/
+  kubeadmConfigPatches:
+  - |
+    apiVersion: kubeadm.k8s.io/v1beta2
+    kind: InitConfiguration
+    nodeRegistration:
+      kubeletExtraArgs:
+        node-labels: "ingress-ready=true"
+        authorization-mode: "AlwaysAllow"
+  extraPortMappings:
+  - containerPort: 80
+    hostPort: 80
+    listenAddress: "0.0.0.0"
+  - containerPort: 443
+    hostPort: 443
+    listenAddress: "0.0.0.0"
+- role: worker
+  # Setup worker for a single, 32000 NodePort
+  kubeadmConfigPatches:
+  - |
+    apiVersion: kubeadm.k8s.io/v1beta2
+    kind: InitConfiguration
+    nodeRegistration:
+      kubeletExtraArgs:
+        node-labels: "nodeport-ready=true"
+        authorization-mode: "AlwaysAllow"
+  extraPortMappings:
+  - containerPort: 80
+    hostPort: 31080
+    listenAddress: "0.0.0.0"
