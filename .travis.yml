@@ -3,6 +3,8 @@ dist: bionic
 sudo: required
 services:
   - docker
+env:
+  - KUBECONFIG=\$PWD/.kube/config
 
 before_script:
   - sudo apt-get update
