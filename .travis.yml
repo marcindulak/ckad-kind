@@ -11,17 +11,33 @@ before_script:
   - source ~/.bashrc
   - bash scripts/12-allow-insecure-docker-registry.sh
   - bash scripts/13-install-go.sh
+  - source /etc/profile
   - bash scripts/14-test-go.sh
   - bash scripts/15-install-kind.sh
   - bash scripts/20-install-kubectl.sh
   - echo "source <(kubectl completion bash)" >> ~/.bashrc
   - source ~/.bashrc
-  
+
 script:
   - cd kind
   - direnv allow
   - bash ../scripts/21-install-ckad.sh
   - cd ..
-  
+  - cd kind-registry
+  - direnv allow
+  - bash ../scripts/22-install-kind-with-registry-sh.sh
+  - bash ../scripts/23-configure-ckad-registry.sh
+  - ! bash ../scripts/24-test-ckad-registry.sh
+  - bash ../scripts/25-remove-ckad-registry.sh
+  - cd ..
+
 after_script:
-  - pwd
+  - cd kind
+  - direnv allow
+  - cd manifests
+  - bash ../../scripts/30-install-calico.sh
+  - bash ../../scripts/31-install-ingress-nginx.sh
+  - bash ../../scripts/32-test-ingress-nginx.sh
+  - bash ../../scripts/33-test-nodeport.sh
+  - bash ../../scripts/34-install-metrics-server.sh
+  - bash ../../scripts/35-test-metrics-server.sh
