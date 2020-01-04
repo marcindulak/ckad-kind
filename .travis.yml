@@ -11,7 +11,7 @@ before_script:
   - bash scripts/01-install-tools.sh
   - bash scripts/12-allow-insecure-docker-registry.sh
   - bash scripts/13-install-go.sh
-  - echo "KUBECONFIG=\$PWD/.kube/config" | sudo tee -a /etc/profile
+  - echo "export KUBECONFIG=\$PWD/.kube/config" | sudo tee -a /etc/profile
   - source /etc/profile
   - bash scripts/14-test-go.sh
   - bash scripts/15-install-kind.sh
