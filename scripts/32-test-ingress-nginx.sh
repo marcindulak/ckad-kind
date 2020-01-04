@@ -11,7 +11,7 @@ fi
 
 kubectl apply -f usage.yaml
 sleep 60
-curl -v -k https://localhost | 404
+curl -v -k https://localhost | grep 404
 curl localhost/foo | grep foo
 curl localhost/bar | grep bar
 kubectl delete -f usage.yaml
