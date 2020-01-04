@@ -67,6 +67,7 @@ Install additional tools - skip this step if running in `vagrant` since it has b
 bash scripts/01-install-tools.sh
 echo 'eval "$(direnv hook bash)"' >> ~/.bashrc
 source ~/.bashrc
+direnv status
 ```
 
 Install `docker` - skip this step if running in `vagrant` since it has been already performed

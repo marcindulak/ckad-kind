@@ -6,7 +6,7 @@ fi
 
 env | sort | grep KUBECONFIG
 KIND_CLUSTER_NAME=ckad-registry bash kind-with-registry.sh
-ls -al .kube
+ls -al $KUBECONFIG
 kubectl cluster-info
 kubectl get nodes
 

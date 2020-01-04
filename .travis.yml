@@ -9,6 +9,7 @@ before_script:
   - bash scripts/01-install-tools.sh
   - echo 'eval "$(direnv hook bash)"' >> ~/.bashrc
   - source ~/.bashrc
+  - direnv status
   - bash scripts/12-allow-insecure-docker-registry.sh
   - bash scripts/13-install-go.sh
   - source /etc/profile
@@ -17,11 +18,8 @@ before_script:
   - bash scripts/20-install-kubectl.sh
   - echo "source <(kubectl completion bash)" >> ~/.bashrc
   - source ~/.bashrc
-  - id
-  - cat ~/.bashrc
 
 script:
-  - id
   - source ~/.bashrc
   - cd kind
   - direnv allow
@@ -36,7 +34,6 @@ script:
   - cd ..
 
 after_script:
-  - id
   - source ~/.bashrc
   - cd kind
   - direnv allow
