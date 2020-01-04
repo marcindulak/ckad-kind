@@ -9,7 +9,7 @@ before_script:
   - bash scripts/01-install-tools.sh
   - bash scripts/12-allow-insecure-docker-registry.sh
   - bash scripts/13-install-go.sh
-  - echo 'export KUBECONFIG=\$PWD/.kube/config' | sudo tee -a /etc/profile
+  - echo 'export KUBECONFIG=$PWD/.kube/config' | sudo tee -a /etc/profile
   - source /etc/profile
   - bash scripts/14-test-go.sh
   - bash scripts/15-install-kind.sh
@@ -17,9 +17,11 @@ before_script:
 
 script:
   - cd kind
+  - source /etc/profile
   - bash ../scripts/21-install-ckad.sh
   - cd ..
   - cd kind-registry
+  - source /etc/profile
   - bash ../scripts/22-install-kind-with-registry-sh.sh
   - bash ../scripts/23-configure-ckad-registry.sh
   - ! bash ../scripts/24-test-ckad-registry.sh
@@ -28,9 +30,8 @@ script:
 
 after_script:
   - cd kind
+  - source /etc/profile
   - cd manifests
-  - mkdir .kube
-  - ln -s ../.kube/config .kube/config
   - env | sort | grep KUBECONFIG
   - test -r $KUBECONFIG
   - readlink -f $KUBECONFIG
