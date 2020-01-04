@@ -1,5 +1,6 @@
 .vagrant
-.kube/config
+kind/.kube/config
+kind-registry/.kube/config
 kubectl
 *.log
 *~
