@@ -24,7 +24,7 @@ script:
   - source /etc/profile
   - bash ../scripts/22-install-kind-with-registry-sh.sh
   - bash ../scripts/23-configure-ckad-registry.sh
-  - bash ../scripts/24-test-ckad-registry.sh || true
+  - bash ../scripts/24-test-ckad-registry.sh
   - bash ../scripts/25-remove-ckad-registry.sh
   - cd ..
 

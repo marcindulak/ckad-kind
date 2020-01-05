@@ -11,4 +11,4 @@ fi
 
 kubectl apply -f calico.yaml
 sleep 240
-kubectl get nodes | grep -v NotReady
+kubectl get nodes --no-headers | grep -v NotReady

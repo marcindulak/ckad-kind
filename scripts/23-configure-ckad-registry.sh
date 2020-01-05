@@ -8,6 +8,7 @@ env | sort | grep KUBECONFIG
 readlink -f $KUBECONFIG
 KIND_CLUSTER_NAME=ckad-registry bash kind-with-registry.sh
 test -r $KUBECONFIG
+sleep 60
 kubectl cluster-info
 kubectl get nodes
 
