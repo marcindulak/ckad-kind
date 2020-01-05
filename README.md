@@ -117,7 +117,7 @@ source ~/.bashrc
 ```
 
 13. Create the `ckad` kind cluster using a specific k8s version from https://hub.docker.com/r/kindest/node/tags.
-The `ckad-registry` is setup under the separate `kind` directory,
+The `ckad` cluster is setup under the separate `kind` directory,
 where its `.kube/config` file is stored, so it does not overwrite the existing, global `~/.kube/config`.
 The local `.envrc` file is used for this purpose, by exporting the `KUBECONFIG` environment variable.
 
@@ -129,7 +129,10 @@ cd ..
 ```
 
 14. Install and configure local `docker` registry in a 'kind-registry' `docker` container.
-The `kind-with-registry-sh` script brings up an extra `kind` cluster `ckad-registry` to be deleted.
+See https://kind.sigs.k8s.io/docs/user/local-registry/ and
+the [scripts/24-test-ckad-registry.sh](scripts/24-test-ckad-registry.sh) script for the usage of registry.
+
+The `kind-with-registry.sh` script brings up an extra `kind` cluster `ckad-registry` to be deleted.
 Similarly to the `ckad` cluster, the `ckad-registry` cluster is setup under the separate `kind-registry` directory,
 where its `.kube/config` file is stored, so it does not overwrite the existing, global `~/.kube/config`.
 
