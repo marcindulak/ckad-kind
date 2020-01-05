@@ -40,7 +40,7 @@ vagrant box add ubuntu/bionic64
 4. Extend the size of the root partition in the box, using the [scripts/00-extend-size-of-vmdk-root.sh](scripts/00-extend-size-of-vmdk-root.sh) script.
 The vmdk image is located in a subdirectory under `~/.vagrant/boxes`. See https://tuhrig.de/resizing-vagrant-box-disk-space/
 
-Bring up the virtual machine with `vagrant`, and ssh into it
+5. Bring up the virtual machine with `vagrant`, and ssh into it
 
 ```sh
 vagrant up
@@ -48,7 +48,7 @@ vagrant ssh
 cd /vagrant
 ```
 
-5. From now on, all commands are to be execute **inside** of the virtual machine ssh session,
+From now on, all commands are to be execute **inside** of the virtual machine ssh session,
 **starting** from the `/vagrant` directory.
 
 
