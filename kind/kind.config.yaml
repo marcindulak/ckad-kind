@@ -41,7 +41,7 @@ nodes:
     hostPort: 443
     listenAddress: "0.0.0.0"
 - role: worker
-  # Setup worker for a single, 32000 NodePort
+  # Setup worker for a single NodePort
   kubeadmConfigPatches:
   - |
     apiVersion: kubeadm.k8s.io/v1beta2

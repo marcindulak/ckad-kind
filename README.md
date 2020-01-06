@@ -166,7 +166,7 @@ bash ../../scripts/30-install-calico.sh
 cd ..
 ```
 
-17. Install `nginx` ingress. Note that only one `docker` `kind` node container can act as as ingress.
+17. Install `nginx` ingress. Note that only one `docker` `kind` node container can act as ingress.
 In this case the ingress container is run on the k8s master node.
 See  https://projectcontour.io/kindly-running-contour/ and
 https://kind.sigs.k8s.io/docs/user/ingress/ and https://banzaicloud.com/blog/kind-ingress/.
